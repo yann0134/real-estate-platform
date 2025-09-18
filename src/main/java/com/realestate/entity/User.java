@@ -77,6 +77,10 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<AIQuery> aiQueries;
 
+    @OneToMany(mappedBy = "visitor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Appointment> appointments;
+
     public enum Role {
         ADMIN, OWNER, USER
     }
@@ -174,6 +178,9 @@ public class User implements UserDetails {
 
     public List<AIQuery> getAiQueries() { return aiQueries; }
     public void setAiQueries(List<AIQuery> aiQueries) { this.aiQueries = aiQueries; }
+
+    public List<Appointment> getAppointments() { return appointments; }
+    public void setAppointments(List<Appointment> appointments) { this.appointments = appointments; }
 
     public void addFavorite(Listing listing) {
         Favorite favorite = new Favorite(this, listing);

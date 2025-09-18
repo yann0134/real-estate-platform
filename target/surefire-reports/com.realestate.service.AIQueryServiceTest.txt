@@ -1,15 +1,15 @@
 -------------------------------------------------------------------------------
 Test set: com.realestate.service.AIQueryServiceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 2.067 s <<< FAILURE! -- in com.realestate.service.AIQueryServiceTest
-com.realestate.service.AIQueryServiceTest.processQuery_ShouldReturnResults_WhenListingsFound -- Time elapsed: 2.001 s <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 2.018 s <<< FAILURE! -- in com.realestate.service.AIQueryServiceTest
+com.realestate.service.AIQueryServiceTest.processQuery_ShouldReturnResults_WhenListingsFound -- Time elapsed: 1.957 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.realestate.service.AIQueryService.processQuery(com.realestate.dto.AIQueryRequest, com.realestate.entity.User)" because "this.aiQueryService" is null
 	at com.realestate.service.AIQueryServiceTest.processQuery_ShouldReturnResults_WhenListingsFound(AIQueryServiceTest.java:74)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
 
-com.realestate.service.AIQueryServiceTest.processQuery_ShouldReturnEmptyResults_WhenNoListingsFound -- Time elapsed: 0.011 s <<< ERROR!
+com.realestate.service.AIQueryServiceTest.processQuery_ShouldReturnEmptyResults_WhenNoListingsFound -- Time elapsed: 0.010 s <<< ERROR!
 java.lang.NullPointerException: Cannot invoke "com.realestate.service.AIQueryService.processQuery(com.realestate.dto.AIQueryRequest, com.realestate.entity.User)" because "this.aiQueryService" is null
 	at com.realestate.service.AIQueryServiceTest.processQuery_ShouldReturnEmptyResults_WhenNoListingsFound(AIQueryServiceTest.java:95)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
