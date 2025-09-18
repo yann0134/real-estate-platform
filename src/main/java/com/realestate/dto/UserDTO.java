@@ -1,8 +1,15 @@
 package com.realestate.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+/**
+ * DTO représentant un utilisateur
+ */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
     private Long id;
     private String password;
@@ -11,5 +18,5 @@ public class UserDTO {
     private String lastName;
     private String phone;
     private String role;
-    private boolean isActive;
+    private boolean active;
 }

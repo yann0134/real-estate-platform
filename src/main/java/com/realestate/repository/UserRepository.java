@@ -36,8 +36,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     long countByCreatedAtAfter(LocalDateTime date);
     
     // Trouver les utilisateurs inactifs depuis une certaine date
-    @Query("SELECT u FROM User u WHERE u.lastLogin < :date")
+    @Query("SELECT u FROM User u WHERE u.lastLogin < :date AND u.enabled = true")
     List<User> findInactiveUsers(@Param("date") LocalDateTime date);
+    
+    // Trouver les utilisateurs inactifs avec des rendez-vous
+    @Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.appointments a WHERE u.lastLogin < :date AND a IS NOT NULL")
+    List<User> findInactiveUsersWithAppointments(@Param("date") LocalDateTime date);
     
     // Compter les utilisateurs actifs (ayant une activité) dans une période donnée
     @Query("SELECT COUNT(DISTINCT u) FROM User u JOIN u.appointments a WHERE a.createdAt BETWEEN :startDate AND :endDate")
