@@ -4,6 +4,7 @@ import com.realestate.dto.PropertyDTO;
 import com.realestate.dto.UserDTO;
 import com.realestate.entity.Property;
 import com.realestate.entity.User;
+import com.realestate.dto.AdminStatsDTO;
 import com.realestate.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

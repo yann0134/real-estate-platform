@@ -33,7 +33,7 @@ public class WebSocketController {
         message.setSender(principal.getName());
         
         // Envoyer une notification de réception
-        WebSocketMessage<String> response = new WebSocketMessage<>(
+        WebSocketMessage<String> response = new WebSocketMessage<String>(
             "MESSAGE_RECEIVED",
             principal.getName(),
             message.getRecipient(),
@@ -56,7 +56,7 @@ public class WebSocketController {
         // Ici, vous pourriez mettre à jour le statut de la notification dans la base de données
         // notificationService.markAsRead(notificationId, userDetails.getUsername());
         
-        return new WebSocketMessage<>(
+        return new WebSocketMessage<String>(
             "NOTIFICATION_READ",
             null,
             userDetails.getUsername(),
@@ -71,7 +71,7 @@ public class WebSocketController {
     @MessageMapping("/subscribe")
     @SendToUser("/queue/updates")
     public WebSocketMessage<String> subscribeToUpdates(Principal principal) {
-        return new WebSocketMessage<>(
+        return new WebSocketMessage<String>(
             "SUBSCRIPTION_CONFIRMED",
             null,
             principal.getName(),

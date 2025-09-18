@@ -154,4 +154,4 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     // Nombre de rendez-vous par statut
     @Query("SELECT a.status, COUNT(a) FROM Appointment a GROUP BY a.status")
     List<Object[]> countByStatusGroup();
-            
+}

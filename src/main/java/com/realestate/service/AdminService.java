@@ -73,7 +73,7 @@ public class AdminService {
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec l'ID : " + id));
         
         // Vérifier si l'utilisateur a des propriétés ou des rendez-vous
-        if (!user.getProperties().isEmpty()) {
+        if (!user.getListings().isEmpty()) {
             throw new IllegalStateException("Impossible de supprimer un utilisateur avec des propriétés associées");
         }
         
@@ -134,12 +134,12 @@ public class AdminService {
         existingProperty.setCountry(propertyDTO.getCountry());
         existingProperty.setLatitude(propertyDTO.getLatitude());
         existingProperty.setLongitude(propertyDTO.getLongitude());
-        existingProperty.setFurnished(propertyDTO.getFurnished());
+        existingProperty.setIsFurnished(propertyDTO.getIsFurnished());
         existingProperty.setHasElevator(propertyDTO.getHasElevator());
         existingProperty.setHasParking(propertyDTO.getHasParking());
         
         if (propertyDTO.getStatus() != null) {
-            existingProperty.setStatus(PropertyStatus.valueOf(propertyDTO.getStatus()));
+            existingProperty.setStatus(propertyDTO.getStatus());
         }
         
         if (propertyDTO.getEnergyEfficiency() != null) {
@@ -159,7 +159,7 @@ public class AdminService {
                 .orElseThrow(() -> new ResourceNotFoundException("Propriété non trouvée avec l'ID : " + id));
         
         // Annuler les rendez-vous futurs pour cette propriété
-        appointmentRepository.cancelFutureAppointmentsByProperty(id, LocalDate.now());
+        appointmentRepository.cancelFutureAppointmentsByProperty(id);
         
         propertyRepository.delete(property);
     }

@@ -1,6 +1,6 @@
 package com.realestate.config;
 
-import com.realestate.security.JwtTokenProvider;
+import com.realestate.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -28,7 +28,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Autowired
-    private JwtTokenProvider tokenProvider;
+    private JwtUtil jwtUtil;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -51,7 +51,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("*")
                 .withSockJS()
-                .setSupressCors(true);
+                .setSuppressCors(true);
     }
 
     @Override
@@ -66,9 +66,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     // Récupérer le token JWT depuis les en-têtes
                     String token = extractJwtFromHeader(accessor);
                     
-                    if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+                    if (StringUtils.hasText(token) && jwtUtil.validateToken(token)) {
                         // Valider le token et obtenir l'utilisateur
-                        String username = tokenProvider.getUsernameFromToken(token);
+                        String username = jwtUtil.getEmailFromToken(token);
                         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                         
                         // Créer l'authentification

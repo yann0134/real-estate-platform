@@ -3,6 +3,7 @@ package com.realestate.controller;
 import com.realestate.dto.UserDTO;
 import com.realestate.dto.UserProfileDTO;
 import com.realestate.entity.User;
+import com.realestate.dto.PropertyDTO;
 import com.realestate.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

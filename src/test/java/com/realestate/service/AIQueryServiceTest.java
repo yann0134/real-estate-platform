@@ -10,8 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.reactive.function.client.WebClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -21,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class AIQueryServiceTest {
+@SpringBootTest
+public class AIQueryServiceTest {
 
     @Mock
     private AIQueryRepository aiQueryRepository;
@@ -42,7 +44,7 @@ class AIQueryServiceTest {
     @BeforeEach
     void setUp() {
         when(webClientBuilder.build()).thenReturn(webClient);
-        // aiQueryService = new AIQueryService(aiQueryRepository, listingRepository, webClientBuilder, new ObjectMapper());
+        aiQueryService = new AIQueryService(aiQueryRepository, listingRepository, webClientBuilder, new ObjectMapper());
         
         testUser = new User();
         testUser.setId(1L);

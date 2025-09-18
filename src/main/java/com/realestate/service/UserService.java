@@ -3,12 +3,15 @@ package com.realestate.service;
 import com.realestate.dto.PropertyDTO;
 import com.realestate.dto.UserProfileDTO;
 import com.realestate.entity.Property;
+import com.realestate.entity.Favorite;
+import com.realestate.entity.Listing;
 import com.realestate.entity.User;
 import com.realestate.exception.ResourceNotFoundException;
 import com.realestate.exception.UnauthorizedException;
+import com.realestate.repository.ListingRepository;
 import com.realestate.repository.PropertyRepository;
 import com.realestate.repository.UserRepository;
-import com.realestate.security.JwtTokenProvider;
+import com.realestate.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -33,7 +36,8 @@ public class UserService implements AuthUserDetailsService {
 
     private final UserRepository userRepository;
     private final PropertyRepository propertyRepository;
-    private final JwtTokenProvider tokenProvider;
+    private final ListingRepository listingRepository;
+    private final JwtUtil jwtUtil;
     private final ModelMapper modelMapper;
     
     @Lazy
@@ -95,33 +99,48 @@ public class UserService implements AuthUserDetailsService {
         User user = getCurrentUser(token);
         return user.getFavorites()
                 .stream()
-                .map(favorite -> modelMapper.map(favorite.getProperty(), PropertyDTO.class))
+                .map(favorite -> {
+                    Listing listing = favorite.getListing();
+                    PropertyDTO dto = new PropertyDTO();
+                    dto.setId(listing.getId());
+                    dto.setTitle(listing.getTitle());
+                    dto.setDescription(listing.getDescription());
+                    dto.setPrice(listing.getPrice());
+                    dto.setSurface(listing.getSurfaceArea() != null ? listing.getSurfaceArea().doubleValue() : null);
+                    dto.setRooms(listing.getRooms());
+                    dto.setBedrooms(listing.getBedrooms());
+                    dto.setBathrooms(listing.getBathrooms());
+                    dto.setAddress(listing.getAddress());
+                    dto.setCity(listing.getCity() != null ? listing.getCity().getName() : null);
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
-    public void addFavorite(Long propertyId, String token) {
+    public void addFavorite(Long listingId, String token) {
         User user = getCurrentUser(token);
-        Property property = propertyRepository.findById(propertyId)
-                .orElseThrow(() -> new ResourceNotFoundException("Bien immobilier non trouvé"));
+        Listing listing = listingRepository.findById(listingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Annonce non trouvée"));
         
         // Vérifier si le favori existe déjà
         boolean alreadyFavorited = user.getFavorites().stream()
-                .anyMatch(favorite -> favorite.getProperty().getId().equals(propertyId));
+                .anyMatch(favorite -> favorite.getListing().getId().equals(listingId));
                 
         if (!alreadyFavorited) {
-            user.addFavorite(property);
+            Favorite favorite = new Favorite(user, listing);
+            user.getFavorites().add(favorite);
             userRepository.save(user);
         }
     }
 
-    public void removeFavorite(Long propertyId, String token) {
+    public void removeFavorite(Long listingId, String token) {
         User user = getCurrentUser(token);
-        user.getFavorites().removeIf(favorite -> favorite.getProperty().getId().equals(propertyId));
+        user.getFavorites().removeIf(favorite -> favorite.getListing().getId().equals(listingId));
         userRepository.save(user);
     }
     
     private User getCurrentUser(String token) {
-        String email = tokenProvider.getUsernameFromToken(token.substring(7));
+        String email = jwtUtil.getEmailFromToken(token.substring(7));
         return (User) loadUserByUsername(email);
     }
 
@@ -135,7 +154,6 @@ public class UserService implements AuthUserDetailsService {
 
     public User updateUser(User user) {
         return userRepository.save(user);
-    }
     }
 
     public boolean existsByEmail(String email) {

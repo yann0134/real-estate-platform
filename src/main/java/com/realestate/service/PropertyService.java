@@ -44,7 +44,7 @@ public class PropertyService {
                 query, city, minPrice, maxPrice, minSurface, rooms, type);
         
         return propertyRepository.searchProperties(
-                query, city, minPrice, maxPrice, minSurface, rooms, type, pageable)
+                query, city, minPrice, maxPrice, minSurface, null, rooms, null, type, null, null, pageable)
                 .map(this::convertToDto);
     }
 
@@ -57,7 +57,7 @@ public class PropertyService {
 
     @Transactional
     public PropertyDTO createProperty(PropertyDTO propertyDTO, String token) {
-        String email = jwtUtil.extractUsername(token.substring(7));
+        String email = jwtUtil.getEmailFromToken(token.substring(7));
         User owner = (User) userService.loadUserByUsername(email);
         
         Property property = convertToEntity(propertyDTO);
@@ -71,7 +71,7 @@ public class PropertyService {
 
     @Transactional
     public PropertyDTO updateProperty(Long id, PropertyDTO propertyDTO, String token) {
-        String email = jwtUtil.extractUsername(token.substring(7));
+        String email = jwtUtil.getEmailFromToken(token.substring(7));
         Property existingProperty = propertyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + id));
         
@@ -90,7 +90,7 @@ public class PropertyService {
 
     @Transactional
     public void deleteProperty(Long id, String token) {
-        String email = jwtUtil.extractUsername(token.substring(7));
+        String email = jwtUtil.getEmailFromToken(token.substring(7));
         Property property = propertyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + id));
         
@@ -105,7 +105,7 @@ public class PropertyService {
 
     @Transactional
     public PropertyDTO addImagesToProperty(Long id, List<MultipartFile> files, String token) {
-        String email = jwtUtil.extractUsername(token.substring(7));
+        String email = jwtUtil.getEmailFromToken(token.substring(7));
         Property property = propertyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + id));
         
@@ -128,7 +128,7 @@ public class PropertyService {
 
     @Transactional(readOnly = true)
     public List<PropertyDTO> getUserProperties(String token) {
-        String email = jwtUtil.extractUsername(token.substring(7));
+        String email = jwtUtil.getEmailFromToken(token.substring(7));
         User user = (User) userService.loadUserByUsername(email);
         
         return propertyRepository.findByOwnerId(user.getId()).stream()

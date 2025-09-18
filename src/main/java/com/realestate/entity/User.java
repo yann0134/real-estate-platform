@@ -174,4 +174,12 @@ public class User implements UserDetails {
 
     public List<AIQuery> getAiQueries() { return aiQueries; }
     public void setAiQueries(List<AIQuery> aiQueries) { this.aiQueries = aiQueries; }
+
+    public void addFavorite(Listing listing) {
+        Favorite favorite = new Favorite(this, listing);
+        if (this.favorites == null) {
+            this.favorites = new java.util.ArrayList<>();
+        }
+        this.favorites.add(favorite);
+    }
 }

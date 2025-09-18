@@ -12,7 +12,7 @@ import com.realestate.repository.PropertyRepository;
 import com.realestate.event.AppointmentCreatedEvent;
 import com.realestate.event.AppointmentUpdatedEvent;
 import com.realestate.repository.UserRepository;
-import com.realestate.security.JwtTokenProvider;
+import com.realestate.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
@@ -31,7 +31,7 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final PropertyRepository propertyRepository;
     private final UserRepository userRepository;
-    private final JwtTokenProvider tokenProvider;
+    private final JwtUtil jwtUtil;
     private final ModelMapper modelMapper;
     private final ApplicationEventPublisher eventPublisher;
     private static final int APPOINTMENT_DURATION_MINUTES = 60;
@@ -39,7 +39,7 @@ public class AppointmentService {
     @Transactional
     public AppointmentDTO createAppointment(AppointmentDTO appointmentDTO, String token) {
         // Récupérer l'utilisateur à partir du token
-        String userEmail = tokenProvider.getUsernameFromToken(token.substring(7));
+        String userEmail = jwtUtil.getEmailFromToken(token.substring(7));
         User visitor = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
 
@@ -72,7 +72,7 @@ public class AppointmentService {
 
     @Transactional(readOnly = true)
     public List<AppointmentDTO> getUserAppointments(String token) {
-        String userEmail = tokenProvider.getUsernameFromToken(token.substring(7));
+        String userEmail = jwtUtil.getEmailFromToken(token.substring(7));
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
 
@@ -92,7 +92,7 @@ public class AppointmentService {
 
     @Transactional
     public AppointmentDTO updateAppointmentStatus(Long id, String status, String token) {
-        String userEmail = tokenProvider.getUsernameFromToken(token.substring(7));
+        String userEmail = jwtUtil.getEmailFromToken(token.substring(7));
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
 
@@ -137,7 +137,7 @@ public class AppointmentService {
 
     private boolean isTimeSlotAvailable(Long propertyId, LocalDateTime startTime) {
         LocalDateTime endTime = startTime.plusMinutes(APPOINTMENT_DURATION_MINUTES);
-        return appointmentRepository.countConflictingAppointments(propertyId, startTime, endTime) == 0;
+        return !appointmentRepository.existsConflictingAppointment(propertyId, startTime, endTime);
     }
 
     private void cancelConflictingAppointments(Appointment confirmedAppointment) {

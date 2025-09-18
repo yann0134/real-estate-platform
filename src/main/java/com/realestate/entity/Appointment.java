@@ -34,10 +34,3 @@ public class Appointment {
         updatedAt = LocalDateTime.now();
     }
 }
-
-enum AppointmentStatus {
-    PENDING,    // En attente de confirmation
-    CONFIRMED,  // Confirmé
-    CANCELLED,  // Annulé
-    COMPLETED   // Terminé
-}
