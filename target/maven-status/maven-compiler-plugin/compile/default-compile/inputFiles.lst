@@ -9,7 +9,9 @@ C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\enti
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\dto\AIQueryResponse.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\service\FileStorageService.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\repository\UserRepository.java
+C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\config\ModelMapperConfig.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\dto\AIQueryRequest.java
+C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\entity\Image.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\RealEstateApplication.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\config\WebSocketConfig.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\entity\PropertyStatus.java
@@ -42,6 +44,7 @@ C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\enti
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\entity\ListingMedia.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\exception\ResourceNotFoundException.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\service\NotificationService.java
+C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\config\SecurityBeansConfig.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\controller\UserController.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\dto\AdminStatsDTO.java
 C:\Users\ELITEBOOK 850 G6\IdeaProjects\project\src\main\java\com\realestate\entity\Favorite.java

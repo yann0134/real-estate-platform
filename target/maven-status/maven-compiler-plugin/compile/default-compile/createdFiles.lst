@@ -4,6 +4,7 @@ com\realestate\controller\WebSocketController.class
 com\realestate\entity\Listing.class
 com\realestate\dto\AppointmentDTO.class
 com\realestate\dto\LoginResponse.class
+com\realestate\entity\Image.class
 com\realestate\RealEstateApplication.class
 com\realestate\config\CorsConfig.class
 com\realestate\service\AIQueryService.class
@@ -35,6 +36,7 @@ com\realestate\entity\Message.class
 com\realestate\exception\ResourceNotFoundException.class
 com\realestate\entity\Property.class
 com\realestate\service\UserService.class
+com\realestate\config\ModelMapperConfig.class
 com\realestate\dto\OpenAIRequest.class
 com\realestate\controller\AdminController.class
 com\realestate\entity\PropertyType.class
@@ -45,6 +47,7 @@ com\realestate\dto\OpenAIResponse.class
 com\realestate\entity\Listing$Status.class
 com\realestate\entity\AppointmentStatus.class
 com\realestate\entity\EnergyEfficiency.class
+com\realestate\config\SecurityBeansConfig.class
 com\realestate\service\NotificationService.class
 com\realestate\config\WebSocketConfig$1.class
 com\realestate\entity\ListingMedia$MediaType.class

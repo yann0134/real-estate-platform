@@ -2,7 +2,10 @@ package com.realestate.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.awt.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +36,15 @@ public class Property {
     private String country;
     private Double latitude;
     private Double longitude;
+    private boolean featured;
+    private LocalDateTime createdAt; //
+    private LocalDateTime updatedAt;
     private Boolean isFurnished = false;
     private Boolean hasElevator = false;
     private Boolean hasParking = false;
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images = new ArrayList<>();
     
     @Enumerated(EnumType.STRING)
     private EnergyEfficiency energyEfficiency;

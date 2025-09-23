@@ -3,6 +3,7 @@ package com.realestate.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
+import jakarta.persistence.PreUpdate;
 
 @Entity
 @Data
@@ -25,6 +26,8 @@ public class Appointment {
     
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status = AppointmentStatus.PENDING;
+    
+    private Integer rating;
     
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
