@@ -5,7 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+
+import java.util.Arrays;
 
 @Configuration
 public class CorsConfig {
@@ -22,7 +27,7 @@ public class CorsConfig {
     @Value("${app.cors.allow-credentials}")
     private boolean allowCredentials;
 
-    @Bean
+    /*@Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
@@ -49,5 +54,33 @@ public class CorsConfig {
         source.registerCorsConfiguration("/**", config);
         
         return new CorsFilter(source);
+    }*/
+
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+
+        // Set allowed origins from properties
+        config.setAllowedOrigins(Arrays.asList(allowedOrigins));
+
+        // Set allowed methods from properties
+        config.setAllowedMethods(Arrays.asList(allowedMethods));
+
+        // Set allowed headers from properties
+        config.setAllowedHeaders(Arrays.asList(allowedHeaders));
+
+        // Allow credentials
+        config.setAllowCredentials(allowCredentials);
+
+        // Set exposed headers
+        config.setExposedHeaders(Arrays.asList("Authorization", "XSRF-TOKEN"));
+
+        // Configuration for all routes
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(source);
     }
+
 }

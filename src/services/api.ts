@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { API_BASE_URL } from '../config';
+import Cookies from 'js-cookie';
 
 class ApiService {
   private api: AxiosInstance;
@@ -10,15 +11,23 @@ class ApiService {
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true, // Active l'envoi des cookies
     });
 
-    // Intercepteur pour ajouter le token JWT aux requêtes
+    // Intercepteur pour ajouter le token CSRF aux requêtes
     this.api.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('XSRF-TOKEN');
         if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
+          config.headers['X-XSRF-TOKEN'] = token;
         }
+        
+        // Ajout du token JWT si disponible
+        const authToken = localStorage.getItem('token');
+        if (authToken) {
+          config.headers.Authorization = `Bearer ${authToken}`;
+        }
+        
         return config;
       },
       (error) => {
