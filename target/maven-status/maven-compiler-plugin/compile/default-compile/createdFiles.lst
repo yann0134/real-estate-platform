@@ -53,6 +53,7 @@ com\realestate\config\WebSocketConfig$1.class
 com\realestate\entity\ListingMedia$MediaType.class
 com\realestate\util\JwtUtil.class
 com\realestate\dto\RegisterRequest.class
+com\realestate\config\WebMvcConfig.class
 com\realestate\dto\AdminStatsDTO.class
 com\realestate\exception\GlobalExceptionHandler.class
 com\realestate\dto\OpenAIResponse$Message.class
