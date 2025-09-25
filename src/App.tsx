@@ -71,8 +71,8 @@ const PrivateRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <div className="min-h-screen bg-gray-50">
           <React.Suspense fallback={
             <div className="flex justify-center items-center min-h-screen">
@@ -105,8 +105,8 @@ function App() {
             {process.env.NODE_ENV === 'development' && <DebugInfo />}
           </React.Suspense>
         </div>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 
